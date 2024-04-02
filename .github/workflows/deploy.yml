@@ -1,0 +1,38 @@
+name: DeployBE
+on:
+    push:
+      branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+            node-version: '20'
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Create env file 
+        run:  |
+          touch .env
+          echo APP_ENV=${{secrets.APP_ENV}} >> .env
+          echo DOPPLER_PROJECT=${{secrets.DOPPLER_PROJECT}} >> .env
+          echo DOPPLER_TOKEN=${{secrets.DOPPLER_TOKEN}} >> .env
+          echo GITOPS_SECRETS_MASTER_KEY=${{secrets.GITOPS_SECRETS_MASTER_KEY}} >> .env
+        shell: bash
+
+      - name: Delete all running process
+        run: pm2 delete all
+        shell: bash
+
+      - name: Run pm2 and start server 
+        run: |
+          yarn build  && pm2 start yarn --name backend -- start
+        shell: bash
+    

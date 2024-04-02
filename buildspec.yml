@@ -1,0 +1,28 @@
+version: 0.2
+phases:
+  install: 
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo Install yarn.
+      - npm install -g yarn
+      - echo Install typescript.
+      - npm install -g typescript
+  pre_build:
+    commands:
+      - echo Check current working directory
+      - pwd
+      - echo Listing files
+      - ls -l
+      - echo Installing dependencies
+      - yarn install
+  build:
+    commands:
+      - echo Running build
+      - yarn build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - '**/*'
