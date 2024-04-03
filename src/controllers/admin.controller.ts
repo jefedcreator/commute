@@ -19,7 +19,7 @@ export default class AdminController {
         size: Number(req.query.size),
       };
       let bookings = await this.adminService.getRiders(filter);
-      return CustomApiResponse(res, 200, 'fetch bookings', bookings);
+      return CustomApiResponse(res, 200, 'fetch riders', bookings);
     } catch (e) {
       next(e);
     }
