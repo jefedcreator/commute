@@ -15,7 +15,6 @@ export interface IUser {
   gender: Gender;
   phone: string;
   avatar: string;
-  dob: string;
   campus: string;
   walletInfo: {
     currentAmount: number;

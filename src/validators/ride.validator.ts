@@ -5,7 +5,6 @@ export const createRideValidator = (ride: IRide) => {
   const schema = Joi.object({
     campusName: Joi.number().required().label('Campus name'),
     paymentType: Joi.number().required().label('Payment method'),
-    totalPersons: Joi.number().required().label('Total persons'),
     bookingDate: Joi.string().required().label('Booking date'),
     userId: Joi.string().required().label('UserId'),
     riderId: Joi.string().required().label('RiderId'),
@@ -20,4 +19,13 @@ export const createRideValidator = (ride: IRide) => {
       pickupLng: Joi.string().trim().optional(),
     },
   });
+  const options = {
+    errors: {
+      wrap: {
+        label: '',
+        array: '',
+      },
+    },
+  };
+  return schema.validate(ride, options);
 };

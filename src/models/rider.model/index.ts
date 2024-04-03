@@ -3,8 +3,20 @@ import { Schema } from 'mongoose';
 import { IRider } from './type';
 
 const RiderShema = new Schema<IRider>({
-  carNumber: { type: String, required: true, unique: true, default: '' },
-  carModel: { type: String, required: true, default: '' },
+  vehicle: {
+    vehicleName: {
+      type: String,
+      required: true,
+      unique: true,
+      default: '',
+    },
+    vehicleId: {
+      type: String,
+      required: true,
+      unique: true,
+      default: '',
+    },
+  },
   rating: { type: Number, require: true, default: 0 },
 });
 

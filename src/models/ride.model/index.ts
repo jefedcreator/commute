@@ -4,7 +4,6 @@ import { IRide, PaymentStatus, Status, PaymentType } from './type';
 const RideSchema = new Schema<IRide>(
   {
     campusName: { type: String, required: true },
-    phonenumber: { type: String },
     paymentStatus: {
       type: String,
       enum: Object.keys(PaymentStatus),
@@ -27,14 +26,14 @@ const RideSchema = new Schema<IRide>(
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
     riderId: { type: Schema.Types.ObjectId, ref: 'Rider' },
     pickupPoint: {
-      pickupName: { type: String },
-      pickupLat: { type: String },
-      pickupLng: { type: String },
+      pickupName: { type: String, default: '' },
+      pickupLat: { type: String, default: '' },
+      pickupLng: { type: String, default: '' },
     },
     destinationPoint: {
-      destinationName: { type: String },
-      destinationLat: { type: String },
-      destinationLng: { type: String },
+      destinationName: { type: String, default: '' },
+      destinationLat: { type: String, default: '' },
+      destinationLng: { type: String, default: '' },
     },
   },
   {

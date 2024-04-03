@@ -1,8 +1,9 @@
 import { IAdmin } from '@models/Admin.model';
 import { Gender, IUser } from '@models/User.model';
 import Joi from 'joi';
+import { IRider } from '@models/rider.model';
 
-export const RegistrationValidator = (user: IUser) => {
+export const UserRegistrationValidator = (user: IUser) => {
   const schema = Joi.object({
     email: Joi.string().email().trim().required().label('Email'),
     firstname: Joi.string().trim().required().label('Firstname'),
@@ -20,6 +21,33 @@ export const RegistrationValidator = (user: IUser) => {
     },
   };
   return schema.validate(user, options);
+};
+
+export const RiderRegistrationValidator = (rider: IRider) => {
+  const schema = Joi.object({
+    email: Joi.string().email().trim().required().label('Email'),
+    firstname: Joi.string().trim().required().label('Firstname'),
+    lastname: Joi.string().trim().required().label('Lastname'),
+    password: Joi.string().trim().required().label('Password'),
+    phone: Joi.string().trim().required().label('Phone'),
+    gender: Joi.any().valid(Gender.male, Gender.female),
+    vehicle: {
+      vehicleName: Joi.string()
+        .trim()
+        .required()
+        .label('Vehicle name is required'),
+      vehicleId: Joi.string().trim().required().label('Vehicle id is required'),
+    },
+  });
+  const options = {
+    errors: {
+      wrap: {
+        label: '',
+        array: '',
+      },
+    },
+  };
+  return schema.validate(rider, options);
 };
 
 export const LoginValidator = (user: { email: string; password: string }) => {

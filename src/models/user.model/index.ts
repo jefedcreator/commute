@@ -9,7 +9,6 @@ const UserSchema = new Schema<IUser>(
     gender: { type: String, enum: Object.keys(Gender) },
     phone: { type: String, default: '' },
     avatar: { type: String, default: '' },
-    dob: { type: String, default: '' },
     role: {
       type: String,
       enum: Object.keys(UserType),
@@ -17,7 +16,6 @@ const UserSchema = new Schema<IUser>(
       default: UserType.user,
     },
     walletInfo: {
-      currency: { type: String },
       currentAmount: { type: Number, default: 0 },
     },
     totalPayments: { type: Number, default: 0 },
