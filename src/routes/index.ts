@@ -1,5 +1,5 @@
 import express from 'express';
-import V1Router from './v1/index';
+import V1Router from './v1';
 
 const router = express.Router();
 

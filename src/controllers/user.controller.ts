@@ -6,20 +6,20 @@ export default class UserController {
 
   getUserById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let booking = await this.userService.findOne(req.params.id);
-      return CustomApiResponse(res, 200, 'booking fetched', booking);
+      let user = await this.userService.findOne(req.params.id);
+      return CustomApiResponse(res, 200, 'user fetched', user);
     } catch (e) {
       next(e);
     }
   };
 
-  updateRider = async (req: Request, res: Response, next: NextFunction) => {
+  updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let booking = await this.userService.updateOne(
+      let user = await this.userService.updateOne(
         req.body.bookingId,
         req.body,
       );
-      return CustomApiResponse(res, 200, 'booking accepted', booking);
+      return CustomApiResponse(res, 200, 'user updated', user);
     } catch (e) {
       next(e);
     }
@@ -27,17 +27,17 @@ export default class UserController {
 
   updatePassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let booking = await this.userService.updatePassword(req.body);
-      return CustomApiResponse(res, 200, 'booking accepted', booking);
+      let user = await this.userService.updatePassword(req.body);
+      return CustomApiResponse(res, 200, 'user updated', user);
     } catch (e) {
       next(e);
     }
   };
-  
+
   deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let booking = await this.userService.deleteProfile(req.params.id);
-      return CustomApiResponse(res, 200, 'booking accepted', booking);
+      let user = await this.userService.deleteProfile(req.params.id);
+      return CustomApiResponse(res, 200, 'user deleted', user);
     } catch (e) {
       next(e);
     }
