@@ -17,7 +17,7 @@ const RideSchema = new Schema<IRide>(
     status: {
       type: String,
       enum: Object.keys(Status),
-      default: Status.pending,
+      default: Status.pending
     },
     paymentReferenceId: { type: Schema.Types.ObjectId, ref: 'Payment' },
     distance: { type: Number, default: 0 },
@@ -41,6 +41,6 @@ const RideSchema = new Schema<IRide>(
   },
 );
 
-const Ride = model<IRide>('Ride', RideSchema);
+const Ride = model('Ride', RideSchema);
 export * from './type';
 export default Ride;

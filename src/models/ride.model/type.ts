@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Types, Document } from 'mongoose';
 
 export enum PaymentStatus {
   pending = 'pending',
@@ -12,6 +12,7 @@ export enum Status {
   waiting = 'waiting',
   arrived = 'arrived',
   completed = 'completed',
+  ongoing = 'ongoing',
 }
 
 export enum PaymentType {
@@ -20,7 +21,7 @@ export enum PaymentType {
   cash = 'cash',
 }
 
-export interface IRide {
+export interface IRide extends Document {
   campusName: string;
   paymentStatus: PaymentStatus;
   paymentType: PaymentType;
@@ -41,5 +42,5 @@ export interface IRide {
     destinationLat: string;
     destinationLng: string;
   };
-  bookingDate:string;
+  bookingDate: string;
 }

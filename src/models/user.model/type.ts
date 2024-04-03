@@ -1,3 +1,5 @@
+import { Document } from "mongoose";
+
 export enum Gender {
   male = 'male',
   female = 'female',
@@ -8,7 +10,7 @@ export enum UserType {
   rider = 'rider',
 }
 
-export interface IUser {
+export interface IUser extends Document{
   email: string;
   firstname: string;
   lastname: string;
