@@ -1,7 +1,7 @@
 import { IUser } from '@models/User.model';
 import Joi from 'joi';
 
-export const updateUserValidator = (user: IUser) => {
+export const UpdateUserValidator = (user: IUser) => {
   const schema = Joi.object({
     firstname: Joi.string().trim().optional().label('Firstname'),
     lastname: Joi.string().trim().optional().label('Lastname'),
@@ -16,6 +16,23 @@ export const updateUserValidator = (user: IUser) => {
       wrap: {
         label: '',
         array: '',
+      },
+    },
+  };
+  return schema.validate(user, options);
+};
+
+export const UpdatePasswordValidator = (user: IUser) => {
+  const schema = Joi.object({
+    id: Joi.string().trim().required().label('Id'),
+    oldPassword: Joi.string().trim().required().label('Old Password'),
+    password: Joi.string().trim().required().label('Password'),
+    confirmPassword: Joi.string().trim().required().label('Confirm Password'),
+  });
+  const options = {
+    errors: {
+      wrap: {
+        label: '',
       },
     },
   };

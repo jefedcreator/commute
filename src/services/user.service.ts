@@ -1,63 +1,50 @@
 import { Exception } from '@middlewares/error.middleware';
-import User, { IUser, UserType } from '@models/User.model';
-import Rider, { IRider } from '@models/rider.model';
+import User, { IUser } from '@models/User.model';
 import UserAuth from '@models/userauth.model';
-
+import {
+  UpdatePasswordValidator,
+  UpdateUserValidator,
+} from '@validators/user.validator';
+import bcrypt from 'bcrypt';
 export default class UserService {
-  async suspendUser(id: string): Promise<void> {
-    const user = await UserAuth.findById(id);
+  async findOne(id: string): Promise<IUser> {
+    let user = await User.findById(id, '-hash');
     if (!user) throw new Exception(404, 'user not found');
-    await user.updateOne({
-      isActive: !user.isActive,
+    return user;
+  }
+
+  async updateOne(id: string, data: IUser): Promise<IUser> {
+    const { error, value } = UpdateUserValidator(data);
+    if (error) throw new Exception(400, error.details[0].message);
+    let user = await User.findById(id);
+    if (!user) throw new Exception(404, 'user not found');
+    await user?.updateOne(value, { upsert: true });
+    return await this.findOne(id);
+  }
+
+  async updatePassword(data: IUser): Promise<boolean> {
+    const { error, value } = UpdatePasswordValidator(data);
+    if (error) throw new Exception(400, error.details[0].message);
+    let user = await UserAuth.findOne({ userId: value.id });
+    if (value.password != value.confirmPassword)
+      throw new Exception(400, 'Password incorrect');
+    let compare = await bcrypt.compare(
+      value.oldPassword,
+      user?.password as string,
+    );
+    if (!compare) throw new Exception(400, 'Password incorrect');
+    const hashedPassword = await bcrypt.hash(value.password, 10);
+    await user?.updateOne({
+      hash: hashedPassword,
     });
+    return true;
   }
 
-  async getUsers(d: { page: number; size: number }): Promise<{
-    users: Array<IUser>;
-    totalDocuments: number;
-    pageable: { page: number; size: number };
-  }> {
-    const pageSize = Number(d.size) || 0; //total documents to be fetched
-    const pageNumber = Number(d.page) || 0;
-    const skip = pageSize * pageNumber - pageSize;
-    const [users, totalDocuments] = await Promise.all([
-      await User.find({ role: UserType.user })
-        .skip(skip)
-        .limit(pageSize)
-        .sort({ createdAt: -1 }),
-      await User.find({}).countDocuments(),
-    ]);
-    return {
-      users: users,
-      totalDocuments: totalDocuments,
-      pageable: {
-        page: pageNumber,
-        size: pageSize,
-      },
-    };
+  async deleteProfile(id: string): Promise<boolean> {
+    let user = await User.findById(id);
+    if (!user) throw new Exception(400, 'user not found');
+    await UserAuth.findOneAndDelete({ email: user.email });
+    await user.deleteOne();
+    return true;
   }
-
-  async getRiders(d: { page: number; size: number }): Promise<{
-    riders: Array<IRider>;
-    totalDocuments: number;
-    pageable: { page: number; size: number };
-  }> {
-    const pageSize = Number(d.size) || 0; //total documents to be fetched
-    const pageNumber = Number(d.page) || 0;
-    const skip = pageSize * pageNumber - pageSize;
-    const [professionals, totalDocuments] = await Promise.all([
-      await Rider.find({}).skip(skip).limit(pageSize).sort({ createdAt: -1 }),
-      await Rider.find({}).countDocuments(),
-    ]);
-    return {
-      riders: professionals,
-      totalDocuments: totalDocuments,
-      pageable: {
-        page: pageNumber,
-        size: pageSize,
-      },
-    };
-  }
-
-  
 }
