@@ -1,7 +1,6 @@
+import RideService from '@services/ride.service';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
 import { NextFunction, Request, Response } from 'express';
-import RideService from '@services/ride.service';
-import { UserType } from '@models/User.model';
 export default class RideController {
   private rideService = new RideService();
 
