@@ -18,6 +18,8 @@ export default class RideService {
   };
   completeRide = async (rideId: string): Promise<boolean> => {
     const ride = await this.findRide(rideId);
+    if (ride.status != Status.ongoing)
+      throw new Exception(400, 'Ride is not in progress');
     await ride.updateOne({ status: 'completed' });
     await Rider.findByIdAndUpdate(ride.riderId, {
       $inc: {

@@ -13,12 +13,13 @@ export const UserAuthSchema = new Schema<IUserAuth>(
       default: UserType.user,
     },
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    isActive: { type: Boolean, default: true },
   },
   {
     timestamps: true,
   },
 );
 
-const UserAuth = model('UserAuth', UserAuthSchema);
+const UserAuth = model<IUserAuth>('UserAuth', UserAuthSchema);
 export * from './type';
 export default UserAuth;
