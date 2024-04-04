@@ -45,6 +45,7 @@
     "nodemailer": "^6.9.6",
     "otplib": "^12.0.0-3",
     "stream-chat": "^8.14.5",
+    "supertest": "^6.3.4",
     "typescript": "^5.3.3",
     "winston": "^3.11.0"
   },
