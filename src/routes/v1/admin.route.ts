@@ -1,6 +1,6 @@
-import AuthController from '@controllers/auth.controller';
-import { Router } from 'express';
 import AdminController from '@controllers/admin.controller';
+import { Router } from 'express';
+import { AdminAuth } from '@middlewares/auth.middleware';
 
 class AdminRouter {
   private adminController = new AdminController();
@@ -12,9 +12,9 @@ class AdminRouter {
 
   private routes() {
     this.router
-      .post('/riders', this.adminController.getRiders)
-      .post('/users', this.adminController.getUsers)
-      .patch('/users/suspend', this.adminController.suspendUser);
+      .post('/riders', AdminAuth, this.adminController.getRiders)
+      .post('/users', AdminAuth, this.adminController.getUsers)
+      .patch('/users/suspend', AdminAuth, this.adminController.suspendUser);
   }
 }
 export default new AdminRouter();

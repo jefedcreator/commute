@@ -12,7 +12,7 @@ class AuthRouter {
   private routes() {
     this.router
       .post('/signup/user', this.authController.createUser)
-      .post('/signup/professional', this.authController.createRider)
+      .post('/signup/rider', this.authController.createRider)
       .post('/login', this.authController.login)
       .post('/password-reset', this.authController.resetPassword)
       .post('/signup/admin', this.authController.createAdmin)

@@ -13,7 +13,7 @@ class ProfessionaRouter {
   private routes() {
     this.router
       .get('/:id', UserAuth, this.riderController.getRiderById)
-      .put('/:id', this.riderController.updateRider);
+      .put('/:id', UserAuth, this.riderController.updateRider);
   }
 }
 

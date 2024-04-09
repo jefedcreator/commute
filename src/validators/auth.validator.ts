@@ -1,5 +1,5 @@
-import { IAdmin } from '@models/Admin.model';
-import { Gender, IUser } from '@models/User.model';
+import { IAdmin } from '@models/admin.model';
+import { Gender, IUser } from '@models/user.model';
 import Joi from 'joi';
 import { IRider } from '@models/rider.model';
 

@@ -1,5 +1,6 @@
-const { loadSecrets } = require('gitops-secrets');
-const dotenv = require('dotenv');
+import { loadSecrets } from 'gitops-secrets';
+import dotenv from 'dotenv';
+
 dotenv.config();
 export function fetchSecrets() {
   try {

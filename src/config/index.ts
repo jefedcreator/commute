@@ -1,8 +1,15 @@
 import { fetchSecrets } from './doppler';
 import * as dotenv from 'dotenv';
-dotenv.config();
-const secrets: any =
-  process.env.APP_ENV === 'production' ? fetchSecrets() : process.env;
+// dotenv.config();
+// const secrets: any =
+//   process.env.APP_ENV === 'production' ? fetchSecrets() : process.env;
+
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config(); 
+} else {
+  dotenv.config({ path: '.env.production' }); 
+}
+
 export const environments = {
   dev: 'development',
   stg: 'staging',
@@ -12,6 +19,8 @@ export const environments = {
 export type EnvironmentKeys = keyof typeof environments;
 export type Environments = (typeof environments)[EnvironmentKeys];
 const PORT = 3500;
+
+console.log('mongo url',process.env.MONGODB_URI);
 
 type MailConfigs = {
   host: string;

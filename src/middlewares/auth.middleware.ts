@@ -1,10 +1,10 @@
 import { config } from '@config';
-import User from '@models/User.model';
+import User from '@models/user.model';
 import { NextFunction, Response, Request } from 'express';
 import jwt from 'jsonwebtoken';
 import { Exception } from './error.middleware';
 import crypto from 'crypto';
-import Admin from '@models/Admin.model';
+import Admin from '@models/admin.model';
 
 export const UserAuth = async (
   req: Request,

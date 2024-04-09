@@ -2,7 +2,7 @@ import { IRide } from '@models/ride.model';
 import Ride from '@models/ride.model';
 import { Exception } from '@middlewares/error.middleware';
 import { createRideValidator } from '@validators/ride.validator';
-import User from '@models/User.model';
+import User from '@models/user.model';
 import Rider from '@models/rider.model';
 import { Status } from '@models/ride.model';
 

@@ -1,5 +1,5 @@
 import { Exception } from '@middlewares/error.middleware';
-import User, { IUser, UserType } from '@models/User.model';
+import User, { IUser, UserType } from '@models/user.model';
 import Rider, { IRider } from '@models/rider.model';
 import UserAuth from '@models/userauth.model';
 

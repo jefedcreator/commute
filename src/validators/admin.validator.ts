@@ -1,4 +1,4 @@
-import { IAdmin } from '@models/Admin.model';
+import { IAdmin } from '@models/admin.model';
 import Joi from 'joi';
 
 export const updateAdminValidator = (admin: IAdmin) => {

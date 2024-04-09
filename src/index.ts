@@ -32,3 +32,5 @@ app.use(ErrorMiddleware);
 app.listen(PORT, () =>
   console.log(`Dandys server started on port http://0.0.0.0:${PORT}`),
 );
+
+export default app;

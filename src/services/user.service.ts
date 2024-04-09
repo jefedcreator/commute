@@ -1,5 +1,5 @@
 import { Exception } from '@middlewares/error.middleware';
-import User, { IUser } from '@models/User.model';
+import User, { IUser } from '@models/user.model';
 import UserAuth from '@models/userauth.model';
 import {
   UpdatePasswordValidator,

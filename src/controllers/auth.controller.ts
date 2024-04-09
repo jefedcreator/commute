@@ -1,4 +1,4 @@
-import { UserType } from '@models/User.model';
+import { UserType } from '@models/user.model';
 import AuthService from '@services/auth.service';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
 import { NextFunction, Response, Request } from 'express';

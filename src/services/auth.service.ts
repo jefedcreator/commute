@@ -1,8 +1,8 @@
 import { config } from '@config';
 import { Exception } from '@middlewares/error.middleware';
-import Admin, { IAdmin } from '@models/Admin.model';
-import User, { IUser, UserType } from '@models/User.model';
-import UserAuth from '@models/UserAuth.model';
+import Admin, { IAdmin } from '@models/admin.model';
+import User, { IUser, UserType } from '@models/user.model';
+import UserAuth from '@models/userauth.model';
 import Rider from '@models/rider.model';
 import {
     AdminRegisterValidator,
