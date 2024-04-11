@@ -1,19 +1,24 @@
 import { Exception } from '@middlewares/error.middleware';
 import User, { IUser } from '@models/user.model';
-import UserAuth from '@models/userauth.model';
+import UserAuth, { IUserAuth } from '@models/userauth.model';
 import {
   UpdatePasswordValidator,
   UpdateUserValidator,
 } from '@validators/user.validator';
 import bcrypt from 'bcrypt';
+import { boolean } from 'joi';
+
 export default class UserService {
-  async findOne(id: string): Promise<IUser> {
-    let user = await User.findById(id, '-hash');
+  async findOne(id: string): Promise<IUserAuth> {
+    let user = await UserAuth.findOne({ userId: id }).populate({
+      path: 'userId',
+      select: ['firstname', 'lastname'],
+    });
     if (!user) throw new Exception(404, 'user not found');
     return user;
   }
 
-  async updateOne(id: string, data: IUser): Promise<IUser> {
+  async updateOne(id: string, data: IUser): Promise<IUserAuth> {
     const { error, value } = UpdateUserValidator(data);
     if (error) throw new Exception(400, error.details[0].message);
     let user = await User.findById(id);

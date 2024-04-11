@@ -6,7 +6,7 @@ export default class AdminController {
   suspendUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       await this.adminService.suspendUser(req.body.userId);
-      return CustomApiResponse(res, 201, 'user suspended', '');
+      return CustomApiResponse(res, 200, 'user suspended', '');
     } catch (e) {
       next(e);
     }

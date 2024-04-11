@@ -91,13 +91,13 @@ describe('POST /v1/auth/signup/admin', function () {
 
 describe('POST /v1/auth/admin/login', function () {
   it('should login an admin successfully', async function () {
-    const user = {
+    const admin = {
       email: 'jondoe2@email.com',
       password: 'notarealpassword10',
     };
     const response = await supertest(app)
       .post('/v1/auth/admin/login')
-      .send(user);
+      .send(admin);
     expect(response.status).to.eql(201);
   });
 });
@@ -118,11 +118,11 @@ describe('POST /v1/auth/password-reset', function () {
 
 after(async function () {
   if (userId) {
-    const deleteResponse = await supertest(app).delete(`/v1/users/${userId}`);
+    const deleteResponse = await supertest(app).delete(`/v1/user/${userId}`);
     expect(deleteResponse.status).to.eql(200);
   }
   if (riderId) {
-    const deleteResponse = await supertest(app).delete(`/v1/users/${riderId}`);
+    const deleteResponse = await supertest(app).delete(`/v1/user/${riderId}`);
     expect(deleteResponse.status).to.eql(200);
   }
   if (adminId) {

@@ -6,7 +6,8 @@ import Admin from '@models/admin.model';
 
 export default class AdminService {
   async suspendUser(id: string): Promise<void> {
-    const user = await UserAuth.findById(id);
+    const u = await User.findById(id);
+    const user = await UserAuth.findOne({ email: u?.email });
     if (!user) throw new Exception(404, 'user not found');
     await user.updateOne({
       isActive: !user.isActive,
