@@ -38,18 +38,12 @@ export default class AdminController {
     }
   };
 
-  //   getTransactions = async (req: Request, res: Response, next: NextFunction) => {
-  //     try {
-  //       let filter = {
-  //         status: req.query.status as string,
-  //         type: req.query.type as string,
-  //         page: Number(req.query.page),
-  //         size: Number(req.query.size),
-  //       };
-  //       let transactions = await this.adminService.(filter);
-  //       return CustomApiResponse(res, 200, 'fetch transactions', transactions);
-  //     } catch (e) {
-  //       next(e);
-  //     }
-  //   };
+  deleteAdmin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let admin = await this.adminService.deleteProfile(req.params.id);
+      return CustomApiResponse(res, 200, 'admin deleted', admin);
+    } catch (e) {
+      next(e);
+    }
+  };
 }

@@ -14,7 +14,8 @@ class AdminRouter {
     this.router
       .post('/riders', AdminAuth, this.adminController.getRiders)
       .post('/users', AdminAuth, this.adminController.getUsers)
-      .patch('/users/suspend', AdminAuth, this.adminController.suspendUser);
+      .patch('/users/suspend', AdminAuth, this.adminController.suspendUser)
+      .delete('/:id', this.adminController.deleteAdmin);
   }
 }
 export default new AdminRouter();

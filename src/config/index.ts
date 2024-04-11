@@ -5,9 +5,9 @@ import * as dotenv from 'dotenv';
 //   process.env.APP_ENV === 'production' ? fetchSecrets() : process.env;
 
 if (process.env.NODE_ENV !== 'production') {
-  dotenv.config(); 
+  dotenv.config();
 } else {
-  dotenv.config({ path: '.env.production' }); 
+  dotenv.config({ path: '.env.production' });
 }
 
 export const environments = {
@@ -18,9 +18,9 @@ export const environments = {
 
 export type EnvironmentKeys = keyof typeof environments;
 export type Environments = (typeof environments)[EnvironmentKeys];
-const PORT = 3500;
+const PORT = 3000;
 
-console.log('mongo url',process.env.MONGODB_URI);
+const secrets = process.env;
 
 type MailConfigs = {
   host: string;
@@ -49,8 +49,8 @@ export const config = {
   port: PORT,
   appEnv: secrets.APP_ENV,
   jwt: {
-    user: secrets.USER_JWT_SECRET,
-    admin: secrets.ADMIN_JWT_SECRET,
+    user: secrets.USER_JWT as string,
+    admin: secrets.ADMIN_JWT as string,
   },
   identity: {
     publicKey: secrets.QOREID_CLIENT_ID,
@@ -59,7 +59,7 @@ export const config = {
   },
   mongo: {
     name: secrets.MONGODB_NAME,
-    host: secrets.MONGODB_HOST,
+    host: secrets.MONGODB_URI,
   } as MongoConfigs,
   redis: {
     host: secrets.REDIS_HOST,

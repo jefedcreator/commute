@@ -32,27 +32,27 @@ export const UserAuth = async (
   }
 };
 
-export const PaymentAuth = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const providerSignature = req.headers['x-paystack-signature'] || '';
-    const signature = crypto
-      .createHmac('sha512', config.payment.secretKey)
-      .update(JSON.stringify(req.body))
-      .digest('hex');
-    if (providerSignature != signature)
-      throw new Exception(401, 'Authentication failed');
-    next();
-  } catch (e: any) {
-    return res.status(401).json({
-      statusCode: 401,
-      message: e.message,
-    });
-  }
-};
+// export const PaymentAuth = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction,
+// ) => {
+//   try {
+//     const providerSignature = req.headers['x-paystack-signature'] || '';
+//     const signature = crypto
+//       .createHmac('sha512', config.payment.secretKey)
+//       .update(JSON.stringify(req.body))
+//       .digest('hex');
+//     if (providerSignature != signature)
+//       throw new Exception(401, 'Authentication failed');
+//     next();
+//   } catch (e: any) {
+//     return res.status(401).json({
+//       statusCode: 401,
+//       message: e.message,
+//     });
+//   }
+// };
 
 export const AdminAuth = async (
   req: Request,

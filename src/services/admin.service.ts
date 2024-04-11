@@ -2,6 +2,7 @@ import { Exception } from '@middlewares/error.middleware';
 import User, { IUser, UserType } from '@models/user.model';
 import Rider, { IRider } from '@models/rider.model';
 import UserAuth from '@models/userauth.model';
+import Admin from '@models/admin.model';
 
 export default class AdminService {
   async suspendUser(id: string): Promise<void> {
@@ -59,5 +60,10 @@ export default class AdminService {
     };
   }
 
-  
+  async deleteProfile(id: string): Promise<boolean> {
+    let admin = await Admin.findById(id);
+    if (!admin) throw new Exception(400, 'admin not found');
+    await Admin.findOneAndDelete({ email: admin.email });
+    return true;
+  }
 }
