@@ -27,10 +27,10 @@ export default class UserService {
     return await this.findOne(id);
   }
 
-  async updatePassword(data: IUser): Promise<boolean> {
+  async updatePassword(id: string, data: IUser): Promise<boolean> {
     const { error, value } = UpdatePasswordValidator(data);
     if (error) throw new Exception(400, error.details[0].message);
-    let user = await UserAuth.findOne({ userId: value.id });
+    let user = await UserAuth.findOne({ userId: id });
     if (value.password != value.confirmPassword)
       throw new Exception(400, 'Password incorrect');
     let compare = await bcrypt.compare(

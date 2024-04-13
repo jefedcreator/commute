@@ -24,7 +24,6 @@ export const UpdateUserValidator = (user: IUser) => {
 
 export const UpdatePasswordValidator = (user: IUser) => {
   const schema = Joi.object({
-    id: Joi.string().trim().required().label('Id'),
     oldPassword: Joi.string().trim().required().label('Old Password'),
     password: Joi.string().trim().required().label('Password'),
     confirmPassword: Joi.string().trim().required().label('Confirm Password'),

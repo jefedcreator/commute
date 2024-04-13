@@ -15,10 +15,7 @@ export default class UserController {
 
   updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let user = await this.userService.updateOne(
-        req.body.bookingId,
-        req.body,
-      );
+      let user = await this.userService.updateOne(req.params.id, req.body);
       return CustomApiResponse(res, 200, 'user updated', user);
     } catch (e) {
       next(e);
@@ -27,7 +24,7 @@ export default class UserController {
 
   updatePassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let user = await this.userService.updatePassword(req.body);
+      let user = await this.userService.updatePassword(req.params.id, req.body);
       return CustomApiResponse(res, 200, 'user updated', user);
     } catch (e) {
       next(e);

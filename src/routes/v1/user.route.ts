@@ -14,7 +14,7 @@ class UserRouter {
     this.router
       .get('/:id', UserAuth, this.userController.getUserById)
       .put('/:id', UserAuth, this.userController.updateUser)
-      .put('/update/password', UserAuth, this.userController.updatePassword)
+      .put('/:id/password', UserAuth, this.userController.updatePassword)
       //   .post('/review', UserAuth, this.userController.createReview)
       .delete('/:id', this.userController.deleteUser);
   }
