@@ -86,10 +86,6 @@ describe('PUT /v1/user/:id/password', function () {
 });
 
 after(async function () {
-  //   if (adminId) {
-  //     const deleteResponse = await supertest(app).delete(`/v1/admin/${adminId}`);
-  //     expect(deleteResponse.status).to.eql(200);
-  //   }
   if (userId) {
     const deleteResponse = await supertest(app).delete(`/v1/user/${userId}`);
     expect(deleteResponse.status).to.eql(200);
