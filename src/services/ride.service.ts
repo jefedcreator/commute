@@ -61,7 +61,7 @@ export default class RideService {
     const ride = await this.findRide(rideId);
     if (ride.riderId.toString() !== riderId)
       throw new Exception(400, 'approval failed');
-    if (ride.status != Status.pending)
+    if (ride.status != Status.waiting)
       throw new Exception(400, 'Ride is pending');
     await ride.updateOne({ status: Status.ongoing });
     return true;

@@ -1,5 +1,5 @@
 import RideController from '@controllers/ride.controller';
-import { PaymentAuth, UserAuth } from '@middlewares/auth.middleware';
+import { UserAuth } from '@middlewares/auth.middleware';
 import { Router } from 'express';
 class RideRouter {
   private rideController = new RideController();
@@ -11,10 +11,10 @@ class RideRouter {
 
   private routes() {
     this.router
-      .post('/', UserAuth, this.rideController.createBooking)
+      .post('/', UserAuth, this.rideController.createRide)
       .get('/:id', UserAuth, this.rideController.getRideById)
-      .put('/cancel', UserAuth, this.rideController.cancelRide)
-      .put('/approve', UserAuth, this.rideController.approveRide);
+      .put('/:id/cancel', UserAuth, this.rideController.cancelRide)
+      .put('/:id/approve', UserAuth, this.rideController.approveRide);
   }
 }
 

@@ -3,9 +3,8 @@ import Joi from 'joi';
 
 export const createRideValidator = (ride: IRide) => {
   const schema = Joi.object({
-    campusName: Joi.number().required().label('Campus name'),
-    paymentType: Joi.number().required().label('Payment method'),
-    bookingDate: Joi.string().required().label('Booking date'),
+    campusName: Joi.string().required().label('Campus name'),
+    paymentType: Joi.string().required().label('Payment method'),
     userId: Joi.string().required().label('UserId'),
     riderId: Joi.string().required().label('RiderId'),
     pickupPoint: {

@@ -42,5 +42,4 @@ export interface IRide extends Document {
     destinationLat: string;
     destinationLng: string;
   };
-  bookingDate: string;
 }
