@@ -11,6 +11,7 @@ const connectDB = async () => {
       autoIndex: config.appEnv !== 'production',
       useUnifiedTopology: true,
       dbName: dbName,
+      family: 4,
     } as ConnectOptions);
     return console.log('Mongodb Connected');
   } catch (e) {

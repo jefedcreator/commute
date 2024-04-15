@@ -6,15 +6,15 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --config nodemon.json",
-    "start": "yarn run build-secrets && node -r module-alias/register ./dist",
+    "start": "tsx -r module-alias/register ./dist",
     "build": "rm -rf ./dist && tsc --build tsconfig.prod.json",
     "format": "prettier --write \"src/**/*.ts\"",
-    "build-secrets": "node -r module-alias/register ./dist/config/build.env.js",
-    "start:dev": "yarn run build && node -r module-alias/register ./dist",
+    "build-secrets": "tsx -r module-alias/register ./dist/config/build.env.js",
+    "start:dev": "yarn run build && tsx -r module-alias/register ./dist",
     "test": "tsx --test src/test/**.ts"
   },
-  "repository": "https://github.com/",
-  "author": "Dandys",
+  "repository": "https://github.com/jefedcreator/commute",
+  "author": "Commute",
   "license": "MIT",
   "private": true,
   "_moduleAliases": {

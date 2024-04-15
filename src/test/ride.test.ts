@@ -116,8 +116,6 @@ describe('PUT /v1/ride/:id/cancel', function () {
         'x-auth-token': riderToken,
       })
       .send(ride);
-    console.log('response', response.text);
-
     expect(response.status).to.eql(200);
   });
 });

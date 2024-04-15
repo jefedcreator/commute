@@ -17,7 +17,7 @@ const RideSchema = new Schema<IRide>(
     status: {
       type: String,
       enum: Object.keys(Status),
-      default: Status.waiting
+      default: Status.waiting,
     },
     paymentReferenceId: { type: Schema.Types.ObjectId, ref: 'Payment' },
     distance: { type: Number, default: 0 },

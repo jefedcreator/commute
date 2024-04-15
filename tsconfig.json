@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ES2015",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -31,7 +31,7 @@
       "@config": ["src/config"],
       "@types": ["src/types"]
     },
-    "types": ["node", "jest"],
+    "types": ["node"],
     "typeRoots": ["node_modules/@types"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "spec/**/*.ts", "src/index"],

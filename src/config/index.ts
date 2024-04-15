@@ -1,14 +1,14 @@
-import { fetchSecrets } from './doppler';
 import * as dotenv from 'dotenv';
 // dotenv.config();
 // const secrets: any =
 //   process.env.APP_ENV === 'production' ? fetchSecrets() : process.env;
 
-if (process.env.NODE_ENV !== 'production') {
-  dotenv.config();
-} else {
-  dotenv.config({ path: '.env.production' });
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   dotenv.config();
+// } else {
+//   dotenv.config({ path: '.env.production' });
+// }
+// dotenv.config();
 
 export const environments = {
   dev: 'development',
