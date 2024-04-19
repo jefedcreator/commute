@@ -55,4 +55,16 @@ export default class RideController {
       next(e);
     }
   };
+
+  completeRide = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let ride = await this.rideService.completeRide(
+        req.params.id,
+        req.body.riderId,
+      );
+      return CustomApiResponse(res, 200, 'ride accepted', ride);
+    } catch (e) {
+      next(e);
+    }
+  };
 }

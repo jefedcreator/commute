@@ -32,6 +32,32 @@ export const UserAuth = async (
   }
 };
 
+export const RiderAuth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const token: any = req.headers['x-auth-token'] || '';
+    if (token) {
+      let decoded: any = jwt.verify(token, config.jwt.user);
+      let user = await User.findById(decoded.id, { _id: 1, role: 1 });
+      if (user?._id == decoded.id && user?.role == "rider") {
+        next();
+      } else {
+        throw new Exception(401, 'Authentication Failed/Invalid Token');
+      }
+    } else {
+      throw new Exception(401, 'Authentication Failed/Invalid Token');
+    }
+  } catch (e: any) {
+    return res.status(401).json({
+      statusCode: 401,
+      message: 'Authentication Failed',
+    });
+  }
+};
+
 // export const PaymentAuth = async (
 //   req: Request,
 //   res: Response,

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { after, describe, it } from 'node:test';
 import supertest from 'supertest';
-import app from '../';
+import app from '..';
 
 let userId;
 let userToken;
@@ -87,7 +87,11 @@ describe('PUT /v1/user/:id/password', function () {
 
 after(async function () {
   if (userId) {
-    const deleteResponse = await supertest(app).delete(`/v1/user/${userId}`);
+    const deleteResponse = await supertest(app)
+      .delete(`/v1/user/${userId}`)
+      .set({
+        'x-auth-token': userToken,
+      });
     expect(deleteResponse.status).to.eql(200);
   }
   process.exit(0);

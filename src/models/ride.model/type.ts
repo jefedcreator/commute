@@ -8,9 +8,6 @@ export enum PaymentStatus {
 
 export enum Status {
   pending = 'pending',
-  transit = 'transit',
-  waiting = 'waiting',
-  arrived = 'arrived',
   completed = 'completed',
   ongoing = 'ongoing',
 }

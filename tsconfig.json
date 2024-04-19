@@ -34,7 +34,17 @@
     "types": ["node"],
     "typeRoots": ["node_modules/@types"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "spec/**/*.ts", "src/index"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "spec/**/*.ts",
+    "src/index",
+    "src/test/admin.test.ts",
+    "src/test/auth.test.ts",
+    "src/test/ride.test.ts",
+    "src/test/rider.test.ts",
+    "src/test/user.test.ts"
+  ],
   "exclude": ["node_modules", "node_modules/*", "./node_modules/*"],
   "ts-node": {
     "esm": true // «———— enabling ESM for ts-node

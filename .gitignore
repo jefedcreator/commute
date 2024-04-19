@@ -4,3 +4,4 @@ node_modules
 prod.env
 .idea
 .env.production
+yarn-error.log

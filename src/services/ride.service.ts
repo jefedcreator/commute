@@ -16,8 +16,11 @@ export default class RideService {
     let rides = await Ride.find({});
     return rides;
   };
-  completeRide = async (rideId: string): Promise<boolean> => {
+  completeRide = async (rideId: string, riderId: string): Promise<boolean> => {
     const ride = await this.findRide(rideId);
+    if (ride.riderId.toString() !== riderId) {
+      throw new Exception(400, 'Invalid Rider');
+    }
     if (ride.status != Status.ongoing)
       throw new Exception(400, 'Ride is not in progress');
     await ride.updateOne({ status: 'completed' });
@@ -49,8 +52,6 @@ export default class RideService {
         throw new Exception(400, 'Ride has been completed');
       case Status.ongoing:
         throw new Exception(400, 'Ride is in progress');
-      case Status.pending:
-        throw new Exception(400, 'Ride is pending');
       default:
         break;
     }
@@ -61,11 +62,11 @@ export default class RideService {
     const ride = await this.findRide(rideId);
     if (ride.riderId.toString() !== riderId)
       throw new Exception(400, 'approval failed');
-    if (ride.status != Status.waiting)
-      throw new Exception(400, 'Ride is pending');
+    if (ride.status != Status.pending) throw new Exception(400, 'Invalid ride');
     await ride.updateOne({ status: Status.ongoing });
     return true;
   };
+
   createRide = async (data: IRide): Promise<IRide> => {
     const { value, error } = createRideValidator(data);
     if (error) throw new Exception(400, error.details[0].message);

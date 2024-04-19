@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { after, describe, it } from 'node:test';
 import supertest from 'supertest';
-import app from '../';
+import app from '..';
 
 let riderId;
 let riderToken;
@@ -9,7 +9,7 @@ let riderToken;
 describe('POST /v1/auth/signup/rider', function () {
   it('should signup a rider successfully', async function () {
     const rider = {
-      email: 'jondoe1@email.com',
+      email: 'jondoe12@email.com',
       firstname: 'Alfa 5',
       lastname: 'Smart bot',
       password: 'notarealpassword10',
@@ -31,7 +31,7 @@ describe('POST /v1/auth/signup/rider', function () {
 describe('POST /v1/auth/login', function () {
   it('should login a rider successfully', async function () {
     const rider = {
-      email: 'jondoe1@email.com',
+      email: 'jondoe12@email.com',
       password: 'notarealpassword10',
     };
     const response = await supertest(app).post('/v1/auth/login').send(rider);
@@ -71,7 +71,11 @@ describe('PUT /v1/rider/:id', function () {
 
 after(async function () {
   if (riderId) {
-    const deleteResponse = await supertest(app).delete(`/v1/user/${riderId}`);
+    const deleteResponse = await supertest(app)
+      .delete(`/v1/user/${riderId}`)
+      .set({
+        'x-auth-token': riderToken,
+      });
     expect(deleteResponse.status).to.eql(200);
   }
   process.exit(0);

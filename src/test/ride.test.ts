@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 import { after, describe, it } from 'node:test';
 import supertest from 'supertest';
-import app from '../';
+import app from '..';
 
 let userId;
 let userToken;
 let riderId;
 let riderToken;
-let rideId;
+let rideId1;
+let rideId2;
 
 describe('POST /v1/auth/signup/user', function () {
   it('should sign up a new user successfully', async function () {
@@ -90,14 +91,30 @@ describe('POST /v1/ride', function () {
         'x-auth-token': userToken,
       })
       .send(ride);
-    rideId = JSON.parse(response.text).data._id;
+    rideId1 = JSON.parse(response.text).data._id;
+    expect(response.status).to.eql(201);
+  });
+  it('should create another ride successfully', async function () {
+    const ride = {
+      campusName: 'university of ibadan',
+      paymentType: 'wallet',
+      userId,
+      riderId,
+    };
+    const response = await supertest(app)
+      .post('/v1/ride')
+      .set({
+        'x-auth-token': userToken,
+      })
+      .send(ride);
+    rideId2 = JSON.parse(response.text).data._id;
     expect(response.status).to.eql(201);
   });
 });
 
 describe('GET /v1/ride/:id', function () {
   it('should get details of ride', async function () {
-    const response = await supertest(app).get(`/v1/ride/${rideId}`).set({
+    const response = await supertest(app).get(`/v1/ride/${rideId1}`).set({
       'x-auth-token': userToken,
     });
     expect(response.status).to.eql(200);
@@ -111,7 +128,7 @@ describe('PUT /v1/ride/:id/cancel', function () {
       riderId,
     };
     const response = await supertest(app)
-      .put(`/v1/ride/${rideId}/cancel`)
+      .put(`/v1/ride/${rideId2}/cancel`)
       .set({
         'x-auth-token': riderToken,
       })
@@ -126,7 +143,22 @@ describe('PUT /v1/ride/:id/approve', function () {
       riderId,
     };
     const response = await supertest(app)
-      .put(`/v1/ride/${rideId}/approve`)
+      .put(`/v1/ride/${rideId1}/approve`)
+      .set({
+        'x-auth-token': riderToken,
+      })
+      .send(ride);
+    expect(response.status).to.eql(200);
+  });
+});
+
+describe('PUT /v1/ride/:id/complete', function () {
+  it('should complete ride', async function () {
+    const ride = {
+      riderId,
+    };
+    const response = await supertest(app)
+      .put(`/v1/ride/${rideId1}/complete`)
       .set({
         'x-auth-token': riderToken,
       })

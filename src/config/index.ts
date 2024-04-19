@@ -8,7 +8,7 @@ import * as dotenv from 'dotenv';
 // } else {
 //   dotenv.config({ path: '.env.production' });
 // }
-// dotenv.config();
+dotenv.config();
 
 export const environments = {
   dev: 'development',

@@ -11,7 +11,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "build-secrets": "tsx -r module-alias/register ./dist/config/build.env.js",
     "start:dev": "yarn run build && tsx -r module-alias/register ./dist",
-    "test": "tsx --test src/test/**.ts"
+    "test": "set NODE_ENV=test && tsx --test --test-concurrency=1 src/test/**test.ts"
   },
   "repository": "https://github.com/jefedcreator/commute",
   "author": "Commute",
@@ -40,6 +40,7 @@
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "mailgun.js": "^9.3.0",
+    "mocha": "^10.4.0",
     "module-alias": "^2.2.3",
     "mongoose": "^7.6.2",
     "multer": "^1.4.5-lts.1",
@@ -63,11 +64,8 @@
     "@types/supertest": "^6.0.2",
     "chai": "^5.1.0",
     "dotenv": "^16.3.1",
-    "esbuild": "^0.19.4",
-    "esbuild-runner": "^2.2.2",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
-    "supertest": "^6.3.4",
-    "tsconfig-paths": "^4.2.0"
+    "supertest": "^6.3.4"
   }
 }
