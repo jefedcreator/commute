@@ -21,11 +21,12 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo MONGODB_URI=${{  secrets.MONGODB_URI }} >> .env
-          echo MONGODB_NAME=${{ secrets.MONGODB_NAME  }} >> .env
-          echo USER_JWT=${{ secrets.USER_JWT }} >> .env
-          echo ADMIN_JWT=${{  secrets.ADMIN_JWT }} >> .env
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+          echo "MONGODB_NAME=${{ secrets.MONGODB_NAME }}" >> .env
+          echo "USER_JWT=${{ secrets.USER_JWT }}" >> .env
+          echo "ADMIN_JWT=${{ secrets.ADMIN_JWT }}" >> .env
         shell: bash
+      
 
       - name: Test all api
         run: yarn test
