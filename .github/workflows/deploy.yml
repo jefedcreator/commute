@@ -21,18 +21,13 @@ jobs:
       - name: Create env file 
         run:  |
           touch .env
-          echo APP_ENV=${{secrets.APP_ENV}} >> .env
-          echo DOPPLER_PROJECT=${{secrets.DOPPLER_PROJECT}} >> .env
-          echo DOPPLER_TOKEN=${{secrets.DOPPLER_TOKEN}} >> .env
-          echo GITOPS_SECRETS_MASTER_KEY=${{secrets.GITOPS_SECRETS_MASTER_KEY}} >> .env
+          echo MONGODB_URI=${{secrets.MONGODB_URI}} >> .env
+          echo MONGODB_NAME=${{secrets.MONGODB_NAME}} >> .env
+          echo USER_JWT=${{secrets.USER_JWT}} >> .env
+          echo ADMIN_JWT=${{secrets.ADMIN_JWT}} >> .env
         shell: bash
 
-      - name: Delete all running process
-        run: pm2 delete all
-        shell: bash
-
-      - name: Run pm2 and start server 
-        run: |
-          yarn build  && pm2 start yarn --name backend -- start
+      - name: Test all api
+        run: yarn test
         shell: bash
     

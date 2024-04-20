@@ -121,14 +121,14 @@ describe('GET /v1/ride/:id', function () {
   });
 });
 
-describe('PUT /v1/ride/:id/cancel', function () {
+describe('PATCH /v1/ride/:id/cancel', function () {
   it('should cancel ride', async function () {
     const ride = {
       userId,
       riderId,
     };
     const response = await supertest(app)
-      .put(`/v1/ride/${rideId2}/cancel`)
+      .patch(`/v1/ride/${rideId2}/cancel`)
       .set({
         'x-auth-token': riderToken,
       })
@@ -137,13 +137,13 @@ describe('PUT /v1/ride/:id/cancel', function () {
   });
 });
 
-describe('PUT /v1/ride/:id/approve', function () {
+describe('PATCH /v1/ride/:id/approve', function () {
   it('should approve ride', async function () {
     const ride = {
       riderId,
     };
     const response = await supertest(app)
-      .put(`/v1/ride/${rideId1}/approve`)
+      .patch(`/v1/ride/${rideId1}/approve`)
       .set({
         'x-auth-token': riderToken,
       })
@@ -152,13 +152,13 @@ describe('PUT /v1/ride/:id/approve', function () {
   });
 });
 
-describe('PUT /v1/ride/:id/complete', function () {
+describe('PATCH /v1/ride/:id/complete', function () {
   it('should complete ride', async function () {
     const ride = {
       riderId,
     };
     const response = await supertest(app)
-      .put(`/v1/ride/${rideId1}/complete`)
+      .patch(`/v1/ride/${rideId1}/complete`)
       .set({
         'x-auth-token': riderToken,
       })

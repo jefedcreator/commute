@@ -13,9 +13,9 @@ class RideRouter {
     this.router
       .post('/', UserAuth, this.rideController.createRide)
       .get('/:id', UserAuth, this.rideController.getRideById)
-      .put('/:id/cancel', UserAuth, this.rideController.cancelRide)
-      .put('/:id/approve', RiderAuth, this.rideController.approveRide)
-      .put('/:id/complete', RiderAuth, this.rideController.completeRide);
+      .patch('/:id/cancel', UserAuth, this.rideController.cancelRide)
+      .patch('/:id/approve', RiderAuth, this.rideController.approveRide)
+      .patch('/:id/complete', RiderAuth, this.rideController.completeRide);
   }
 }
 

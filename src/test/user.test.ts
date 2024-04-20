@@ -68,7 +68,7 @@ describe('PUT /v1/user/:id', function () {
   });
 });
 
-describe('PUT /v1/user/:id/password', function () {
+describe('PATCH /v1/user/:id/password', function () {
   it('should update password of logged in user', async function () {
     const user = {
       oldPassword: 'notarealpassword10',
@@ -76,7 +76,7 @@ describe('PUT /v1/user/:id/password', function () {
       confirmPassword: 'notarealpassword11',
     };
     const response = await supertest(app)
-      .put(`/v1/user/${userId}/password`)
+      .patch(`/v1/user/${userId}/password`)
       .set({
         'x-auth-token': userToken,
       })
