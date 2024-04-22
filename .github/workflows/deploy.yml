@@ -27,7 +27,6 @@ jobs:
           echo "ADMIN_JWT=${{ secrets.ADMIN_JWT }}" >> .env
         shell: bash
       
-
       - name: Test all api
         run: yarn test
         shell: bash
