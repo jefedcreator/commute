@@ -15,11 +15,11 @@ class UserRouter {
 
   private routes() {
     this.router
-      .get('/:id', UserAuth, this.userController.getUserById)
-      .put('/:id', UserAuth, this.userController.updateUser)
-      .patch('/:id/password', UserAuth, this.userController.updatePassword)
+      .get('/', UserAuth, this.userController.getUserById)
+      .put('/', UserAuth, this.userController.updateUser)
+      // .patch('/:id/password', UserAuth, this.userController.updatePassword)
       //   .post('/review', UserAuth, this.userController.createReview)
-      .delete('/:id', UserAuth, this.userController.deleteUser);
+      .delete('/', UserAuth, this.userController.deleteUser);
   }
 }
 

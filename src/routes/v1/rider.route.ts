@@ -4,7 +4,7 @@ import { Router } from 'express';
 import { Container, Service } from 'typedi';
 
 @Service()
-class ProfessionaRouter {
+class RiderRouter {
   private riderController = Container.get(RiderController);
 
   readonly router = Router();
@@ -15,9 +15,9 @@ class ProfessionaRouter {
 
   private routes() {
     this.router
-      .get('/:id', UserAuth, this.riderController.getRiderById)
-      .put('/:id', UserAuth, this.riderController.updateRider);
+      .get('/', UserAuth, this.riderController.getRiderById)
+      .put('/', UserAuth, this.riderController.updateRider);
   }
 }
 
-export default new ProfessionaRouter();
+export default new RiderRouter();

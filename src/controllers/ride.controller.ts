@@ -1,4 +1,5 @@
 import RideService from '@services/ride.service';
+import { AuthenticatedRequest } from '@types';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
 import { NextFunction, Request, Response } from 'express';
 import { Service } from 'typedi';
@@ -34,12 +35,17 @@ export default class RideController {
     }
   };
 
-  cancelRide = async (req: Request, res: Response, next: NextFunction) => {
+  cancelRide = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
+      const riderId = req.userId as string;
       let bokingStatus = await this.rideService.cancelRide(
         req.params.id,
         req.body.userId,
-        req.body.riderId,
+        riderId,
       );
       return CustomApiResponse(res, 200, 'ride canceled', bokingStatus);
     } catch (e) {
@@ -47,23 +53,31 @@ export default class RideController {
     }
   };
 
-  approveRide = async (req: Request, res: Response, next: NextFunction) => {
+  approveRide = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
-      let ride = await this.rideService.approveRide(
-        req.params.id,
-        req.body.riderId,
-      );
+      const riderId = req.userId as string;
+      let ride = await this.rideService.approveRide(req.params.id, riderId);
       return CustomApiResponse(res, 200, 'ride accepted', ride);
     } catch (e) {
       next(e);
     }
   };
 
-  completeRide = async (req: Request, res: Response, next: NextFunction) => {
+  completeRide = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
+      const riderId = req.userId as string;
+
       let ride = await this.rideService.completeRide(
         req.params.id,
-        req.body.riderId,
+        riderId,
       );
       return CustomApiResponse(res, 200, 'ride accepted', ride);
     } catch (e) {

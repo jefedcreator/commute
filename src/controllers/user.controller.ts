@@ -1,4 +1,5 @@
 import UserService from '@services/user.service';
+import { AuthenticatedRequest } from '@types';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
 import { NextFunction, Request, Response } from 'express';
 import { Service } from 'typedi';
@@ -7,36 +8,52 @@ import { Service } from 'typedi';
 export default class UserController {
   constructor(private userService: UserService) {}
 
-  getUserById = async (req: Request, res: Response, next: NextFunction) => {
+  getUserById = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
-      let user = await this.userService.findOne(req.params.id);
+      const id = req.userId as string;
+      let user = await this.userService.findOne(id);
       return CustomApiResponse(res, 200, 'user fetched', user);
     } catch (e) {
       next(e);
     }
   };
 
-  updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  updateUser = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
-      let user = await this.userService.updateOne(req.params.id, req.body);
+      const id = req.userId as string;
+      let user = await this.userService.updateOne(id, req.body);
       return CustomApiResponse(res, 200, 'user updated', user);
     } catch (e) {
       next(e);
     }
   };
 
-  updatePassword = async (req: Request, res: Response, next: NextFunction) => {
+  updatePassword = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
-      let user = await this.userService.updatePassword(req.params.id, req.body);
+      const id = req.userId as string;
+      let user = await this.userService.updatePassword(id, req.body);
       return CustomApiResponse(res, 200, 'user updated', user);
     } catch (e) {
       next(e);
     }
   };
 
-  deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  deleteUser = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
-      let user = await this.userService.deleteProfile(req.params.id);
+      const id = req.userId as string;
+      let user = await this.userService.deleteProfile(id);
       return CustomApiResponse(res, 200, 'user deleted', user);
     } catch (e) {
       next(e);
