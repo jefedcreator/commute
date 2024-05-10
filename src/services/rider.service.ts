@@ -1,6 +1,8 @@
 import { Exception } from '@middlewares/error.middleware';
 import Rider, { IRider } from '@models/rider.model';
 import { updateRiderValidator } from '@validators/rider.validator';
+import { Service } from 'typedi';
+@Service()
 export default class RiderService {
   async findOne(id: string): Promise<IRider> {
     let rider = await Rider.findById(id);

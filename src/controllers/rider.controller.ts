@@ -1,8 +1,11 @@
 import RiderService from '@services/rider.service';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
 import { NextFunction, Request, Response } from 'express';
+import { Service } from 'typedi';
+
+@Service()
 export default class RiderController {
-  private riderService = new RiderService();
+  constructor(private riderService: RiderService) {}
 
   getRiderById = async (req: Request, res: Response, next: NextFunction) => {
     try {

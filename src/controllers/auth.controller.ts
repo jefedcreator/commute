@@ -2,9 +2,11 @@ import { UserType } from '@models/user.model';
 import AuthService from '@services/auth.service';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
 import { NextFunction, Response, Request } from 'express';
+import { Service } from 'typedi';
 
+@Service()
 export default class AuthController {
-  private authService = new AuthService();
+  constructor(private authService: AuthService) {}
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {

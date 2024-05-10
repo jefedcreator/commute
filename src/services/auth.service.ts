@@ -13,7 +13,9 @@ import {
 } from '@validators/auth.validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { Service } from 'typedi';
 
+@Service()
 export default class AuthService {
   async createUser(
     role: string,

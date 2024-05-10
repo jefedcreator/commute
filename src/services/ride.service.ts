@@ -5,7 +5,8 @@ import { createRideValidator } from '@validators/ride.validator';
 import User from '@models/user.model';
 import Rider from '@models/rider.model';
 import { Status } from '@models/ride.model';
-
+import { Service } from 'typedi';
+@Service()
 export default class RideService {
   findRide = async (id: string): Promise<IRide> => {
     let ride = await Ride.findById(id);

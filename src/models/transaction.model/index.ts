@@ -21,7 +21,7 @@ const TransactionSchema = new Schema<ITransaction>(
     userId: { type: Schema.Types.ObjectId, ref: 'User', index: true },
     riderId: {
       type: Schema.Types.ObjectId,
-      ref: 'Professional',
+      ref: 'User',
       index: true,
     },
     reference: { type: String, default: '', index: true },
@@ -32,7 +32,7 @@ const TransactionSchema = new Schema<ITransaction>(
       default: PaymentProviderType.PAYSTACK,
     },
     paymentId: { type: Number, default: 0 },
-    rideId: { type: Schema.Types.ObjectId, ref: 'Booking' },
+    rideId: { type: Schema.Types.ObjectId, ref: 'Ride' },
   },
   {
     timestamps: true,

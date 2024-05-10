@@ -3,9 +3,10 @@ import User, { IUser, UserType } from '@models/user.model';
 import Rider, { IRider } from '@models/rider.model';
 import UserAuth from '@models/userauth.model';
 import Admin from '@models/admin.model';
+import { Service } from 'typedi';
 
-export default class AdminService {
-  async suspendUser(id: string): Promise<void> {
+@Service()
+export default class AdminService {  async suspendUser(id: string): Promise<void> {
     const u = await User.findById(id);
     const user = await UserAuth.findOne({ email: u?.email });
     if (!user) throw new Exception(404, 'user not found');

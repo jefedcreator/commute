@@ -1,8 +1,12 @@
 import AdminService from '@services/admin.service';
 import { NextFunction, Request, Response } from 'express';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
+import { Service } from 'typedi';
+
+@Service()
 export default class AdminController {
-  private adminService = new AdminService();
+  constructor(private adminService: AdminService) {}
+  
   suspendUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       await this.adminService.suspendUser(req.body.userId);

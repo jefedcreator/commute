@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { ErrorMiddleware } from '@middlewares/error.middleware';
 import cors from 'cors';
 import express from 'express';

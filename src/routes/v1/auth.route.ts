@@ -1,8 +1,10 @@
 import AuthController from '@controllers/auth.controller';
 import { Router } from 'express';
+import { Service, Container } from 'typedi';
 
+@Service()
 class AuthRouter {
-  private authController = new AuthController();
+  private authController = Container.get(AuthController);
   readonly router = Router();
 
   constructor() {

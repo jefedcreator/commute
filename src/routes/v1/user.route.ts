@@ -1,9 +1,12 @@
 import UserController from '@controllers/user.controller';
 import { UserAuth } from '@middlewares/auth.middleware';
 import { Router } from 'express';
+import { Container, Service } from 'typedi';
 
+@Service()
 class UserRouter {
-  private userController = new UserController();
+  private userController = Container.get(UserController);
+
   readonly router = Router();
 
   constructor() {

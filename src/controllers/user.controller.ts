@@ -1,8 +1,11 @@
 import UserService from '@services/user.service';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
 import { NextFunction, Request, Response } from 'express';
+import { Service } from 'typedi';
+
+@Service()
 export default class UserController {
-  private userService = new UserService();
+  constructor(private userService: UserService) {}
 
   getUserById = async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -6,8 +6,9 @@ import {
   UpdateUserValidator,
 } from '@validators/user.validator';
 import bcrypt from 'bcrypt';
-import { boolean } from 'joi';
+import { Service } from 'typedi';
 
+@Service()
 export default class UserService {
   async findOne(id: string): Promise<IUserAuth> {
     let user = await UserAuth.findOne({ userId: id }).populate({

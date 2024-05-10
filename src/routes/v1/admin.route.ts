@@ -1,9 +1,11 @@
 import AdminController from '@controllers/admin.controller';
-import { Router } from 'express';
 import { AdminAuth } from '@middlewares/auth.middleware';
+import { Router } from 'express';
+import { Container, Service } from 'typedi';
 
+@Service()
 class AdminRouter {
-  private adminController = new AdminController();
+  private adminController = Container.get(AdminController);
   readonly router = Router();
 
   constructor() {

@@ -1,8 +1,12 @@
 import RideController from '@controllers/ride.controller';
 import { UserAuth, RiderAuth } from '@middlewares/auth.middleware';
 import { Router } from 'express';
+import { Service, Container } from 'typedi';
+
+@Service()
 class RideRouter {
-  private rideController = new RideController();
+  private rideController = Container.get(RideController);
+
   readonly router = Router();
 
   constructor() {
