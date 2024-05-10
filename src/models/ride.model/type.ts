@@ -19,6 +19,7 @@ export enum PaymentType {
 }
 
 export interface IRide extends Document {
+  user: any;
   campusName: string;
   paymentStatus: PaymentStatus;
   paymentType: PaymentType;

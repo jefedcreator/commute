@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { after, describe, it } from 'node:test';
 import supertest from 'supertest';
-import app from '..';
+import app from '../src';
 
 let userId;
 let adminId;

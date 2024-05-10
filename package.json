@@ -11,7 +11,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "build-secrets": "tsx -r module-alias/register ./dist/config/build.env.js",
     "start:dev": "yarn run build && tsx -r module-alias/register ./dist",
-    "test": "set NODE_ENV=test && tsx --test --test-concurrency=1 src/test/**test.ts"
+    "test": "set NODE_ENV=test && tsx --test --test-concurrency=1 test/**test.ts"
   },
   "repository": "https://github.com/jefedcreator/commute",
   "author": "Commute",

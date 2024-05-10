@@ -6,12 +6,18 @@ import User from '@models/user.model';
 import Rider from '@models/rider.model';
 import { Status } from '@models/ride.model';
 import { Service } from 'typedi';
+import PaymentService from '@utils/payment/payment.service';
+import { Types } from 'mongoose';
 @Service()
 export default class RideService {
+  constructor(private paymentService: PaymentService) {}
   findRide = async (id: string): Promise<IRide> => {
     let ride = await Ride.findById(id);
     if (!ride) throw new Exception(400, 'Ride not found');
-    return ride;
+    return ride.populate({
+      path: 'userId',
+      select: ['email', 'firstname', 'lastname'],
+    });
   };
   findAllRides = async (): Promise<IRide[]> => {
     let rides = await Ride.find({});
@@ -59,11 +65,21 @@ export default class RideService {
     await ride.updateOne({ status: Status.pending });
     return true;
   };
+  
   approveRide = async (rideId: string, riderId: string): Promise<boolean> => {
     const ride = await this.findRide(rideId);
     if (ride.riderId.toString() !== riderId)
       throw new Exception(400, 'approval failed');
     if (ride.status != Status.pending) throw new Exception(400, 'Invalid ride');
+    let payment = await this.paymentService.createCharge({
+      email: ride?.user.email,
+      amount: 100,
+      bookingId: ride._id,
+      riderId: ride.riderId,
+      userId: ride.userId,
+      rideId: ride._id,
+      reference: new Types.ObjectId().toString(),
+    });
     await ride.updateOne({ status: Status.ongoing });
     return true;
   };

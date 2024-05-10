@@ -1,6 +1,4 @@
 import { Exception } from '@middlewares/error.middleware';
-import Rider, { IRider } from '@models/rider.model';
-import { updateRiderValidator } from '@validators/rider.validator';
 import Transaction, { ITransaction } from '@models/transaction.model';
 import { Service } from 'typedi';
 
@@ -11,7 +9,7 @@ export default class TransactionService {
     return createTransaction;
   };
 
-  async findOne(id: string): Promise<ITransaction> {
+  async findbyId(id: string): Promise<ITransaction> {
     let transaction = await Transaction.findById(id).populate({
       path: 'rideId',
       select: ['pickupPoint', 'destinationPoint'],
@@ -36,14 +34,17 @@ export default class TransactionService {
     return transactions;
   }
 
-  async updateOne(id: string, data: ITransaction): Promise<ITransaction> {
-    const { error, value } = updateRiderValidator(data);
-    if (error) throw new Exception(400, error.details[0].message);
-    let rider = await Rider.findByIdAndUpdate(id, value, {
+  async updateTransaction(
+    id: string,
+    data: Partial<ITransaction>,
+  ): Promise<ITransaction> {
+    // const { error, value } = updateRiderValidator(data);
+    // if (error) throw new Exception(400, error.details[0].message);
+    let transaction = await Transaction.findByIdAndUpdate(id, data, {
       upsert: true,
     });
-    if (!rider) throw new Exception(404, 'professional not found');
-    return await this.findOne(id);
+    if (!transaction) throw new Exception(404, 'transaction not found');
+    return await this.findbyId(id);
   }
 
   //   async getReviews(professionalId: string): Promise<{

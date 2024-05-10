@@ -1,6 +1,8 @@
 import { config } from '@config';
 import { Exception } from '@middlewares/error.middleware';
+import { TransactionStatus } from '@models/transaction.model';
 import TransactionService from '@services/transaction.service';
+import UserService from '@services/user.service';
 import { addMonths } from 'date-fns';
 import fetch from 'node-fetch';
 import { Service } from 'typedi';
@@ -9,7 +11,7 @@ const { host, secretKey } = config.payment;
 @Service()
 class PaymentService {
   constructor(
-    private readonly user: User,
+    private readonly user: UserService,
     private readonly transaction: TransactionService,
   ) {}
 
@@ -26,9 +28,8 @@ class PaymentService {
       channels: ['card', 'bank', 'ussd', 'qr', 'bank_transfer'],
       reference: data.reference,
       metadata: {
-        txType: data.txType,
-        bookingId: data.bookingId,
-        professionalId: data.professionalId,
+        rideId: data.rideId,
+        riderId: data.riderId,
         userId: data.userId,
       },
     });
@@ -115,22 +116,6 @@ class PaymentService {
     };
   }
 
-  async initiateBulkTransfer(data: string[]): Promise<Array<string>> {
-    let params = JSON.stringify({
-      currency: 'NGN',
-      source: 'balance',
-
-      transfers: data,
-    });
-    let response = await fetch(`${host}/transfer/bulk`, {
-      method: 'POST',
-      headers: this.headers,
-      body: params,
-    });
-    let transfers = await response.json();
-    return transfers;
-  }
-
   async createTransferRecipient(data: {
     name: string;
     accountNumber: string;
@@ -158,23 +143,13 @@ class PaymentService {
 
   public async webhook(data: any) {
     const { reference, id, metadata } = data.data;
+    const user = await this.user.findOne(metadata.userId);
+    if (!user) throw new Exception(404, 'user not found');
+    let transaction = await this.transaction.findbyId(reference);
+    if (!transaction) throw new Exception(404, 'transaction not found');
 
-    const user = await this.user.findById(metadata.userId);
-
-    if (!user) {
-      throw new Exception(404, 'user not found');
-    }
-
-    let transaction = await this.transaction.findOne({
-      reference: reference,
-    });
-
-    if (!transaction) {
-      throw new Exception(404, 'transaction not found');
-    }
-
-    if (transaction.status === TransactionStatus.SUCCESSFUL) {
-      throw new Exception(409,"transaction alreay confirmed");
+    if (transaction.status === TransactionStatus.success) {
+      throw new Exception(409, 'transaction already confirmed');
     }
 
     let tx = await this.queryTransaction(id);
@@ -183,42 +158,9 @@ class PaymentService {
       return false;
     }
 
-    await this.transaction.updateTransaction(
-      {
-        id: transaction.id,
-      },
-      {
-        status: TransactionStatus.SUCCESSFUL,
-      },
-    );
-
-    if (metadata?.paymentType?.toUpperCase() === 'SUBSCRIPTION') {
-      await this.seller.updateSellerInformation(
-        {
-          sellerId: user.id,
-        },
-        {
-          subscriptionPlan: metadata.plan,
-          isSubscriptionActive: true,
-          lastSubscriptionDate: new Date(),
-          expiryDate: addMonths(new Date(), 1),
-        },
-      );
-    } else if (metadata?.paymentType?.toUpperCase() === 'SHOP') {
-      const order = await this.product.findOneOrder({
-        id: transaction?.orderId || metadata?.orderId,
-      });
-      if (order) {
-        await this.product.updateOrder(
-          {
-            id: order.id,
-          },
-          {
-            status: 'PAID',
-          },
-        );
-      }
-    }
+    await this.transaction.updateTransaction(transaction.reference, {
+      status: TransactionStatus.success,
+    });
 
     return true;
   }

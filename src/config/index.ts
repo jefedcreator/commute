@@ -75,9 +75,9 @@ export const config = {
     sender: secrets.MAIL_SENDER,
   } as MailConfigs,
   payment: {
-    host: secrets.PAYMENT_BASE_URL,
+    host: secrets.PAYSTACK_BASE_URL,
     publicKey: secrets.PAYMENT_PUBLIC_KEY,
-    secretKey: secrets.PAYMENT_PRIVATE_KEY,
+    secretKey: secrets.PAYSTACK_SECRET_KEY,
   },
   sms: {
     simpu: {
