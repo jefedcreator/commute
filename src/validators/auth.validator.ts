@@ -1,16 +1,21 @@
 import { IAdmin } from '@models/admin.model';
-import { Gender, IUser } from '@models/user.model';
+import { Gender, IUser, UserType } from '@models/user.model';
 import Joi from 'joi';
 import { IRider } from '@models/rider.model';
 
-export const UserRegistrationValidator = (user: IUser) => {
+export const UserRegistrationValidator = (
+  user: IUser,
+): Joi.ValidationResult<IUser> => {
   const schema = Joi.object({
     email: Joi.string().email().trim().required().label('Email'),
     firstname: Joi.string().trim().required().label('Firstname'),
     lastname: Joi.string().trim().required().label('Lastname'),
     password: Joi.string().trim().required().label('Password'),
     phone: Joi.string().trim().required().label('Phone'),
-    gender: Joi.any().valid(Gender.male, Gender.female),
+    gender: Joi.string()
+      .valid(...Object.values(Gender))
+      .label('Gender'),
+    role: Joi.string().valid('user').required().label('Role'),
   });
   const options = {
     errors: {
@@ -23,21 +28,32 @@ export const UserRegistrationValidator = (user: IUser) => {
   return schema.validate(user, options);
 };
 
-export const RiderRegistrationValidator = (rider: IRider) => {
+export const RiderRegistrationValidator = (
+  rider: IRider,
+): Joi.ValidationResult<IUser> => {
   const schema = Joi.object({
     email: Joi.string().email().trim().required().label('Email'),
     firstname: Joi.string().trim().required().label('Firstname'),
     lastname: Joi.string().trim().required().label('Lastname'),
     password: Joi.string().trim().required().label('Password'),
     phone: Joi.string().trim().required().label('Phone'),
-    gender: Joi.any().valid(Gender.male, Gender.female),
-    vehicle: {
-      vehicleName: Joi.string()
-        .trim()
-        .required()
-        .label('Vehicle name is required'),
-      vehicleId: Joi.string().trim().required().label('Vehicle id is required'),
-    },
+    gender: Joi.string()
+      .valid(...Object.values(Gender))
+      .label('Gender'),
+    vehicle: Joi.object()
+      .required()
+      .keys({
+        vehicleName: Joi.string()
+          .trim()
+          .required()
+          .label('Vehicle name is required'),
+        vehicleId: Joi.string()
+          .trim()
+          .required()
+          .label('Vehicle id is required'),
+      })
+      .label('Vehicle details'),
+    role: Joi.string().valid('rider').required().label('Role'),
   });
   const options = {
     errors: {

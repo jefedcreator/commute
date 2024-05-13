@@ -1,5 +1,5 @@
 import RideController from '@controllers/ride.controller';
-import { UserAuth, RiderAuth } from '@middlewares/auth.middleware';
+import { UserAuth, RiderAuth, PaymentAuth } from '@middlewares/auth.middleware';
 import { Router } from 'express';
 import { Service, Container } from 'typedi';
 
@@ -19,7 +19,8 @@ class RideRouter {
       .get('/:id', UserAuth, this.rideController.getRideById)
       .patch('/:id/cancel', UserAuth, this.rideController.cancelRide)
       .patch('/:id/approve', RiderAuth, this.rideController.approveRide)
-      .patch('/:id/complete', RiderAuth, this.rideController.completeRide);
+      .patch('/:id/complete', RiderAuth, this.rideController.completeRide)
+      .post('/payment/verify', PaymentAuth, this.rideController.verifyPayment);
   }
 }
 

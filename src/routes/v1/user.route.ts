@@ -16,7 +16,7 @@ class UserRouter {
   private routes() {
     this.router
       .get('/', UserAuth, this.userController.getUserById)
-      .put('/', UserAuth, this.userController.updateUser)
+      .patch('/', UserAuth, this.userController.updateUser)
       // .patch('/:id/password', UserAuth, this.userController.updatePassword)
       //   .post('/review', UserAuth, this.userController.createReview)
       .delete('/', UserAuth, this.userController.deleteUser);

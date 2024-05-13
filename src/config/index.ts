@@ -44,6 +44,8 @@ type RedisConfigs = {
   password: string;
 };
 
+export const PRICE = 50;
+
 export const config = {
   baseUrl: secrets.BASE_URL,
   port: PORT,

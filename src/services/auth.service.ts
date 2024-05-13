@@ -17,40 +17,39 @@ import { Service } from 'typedi';
 
 @Service()
 export default class AuthService {
-  async createUser(
-    role: string,
-    data: IUser | IRider,
-  ): Promise<{ _id: string }> {
+  async createUser(data: IUser | IRider): Promise<{ _id: string }> {
     let userId: string = '';
     let error;
     let value;
-    if (role === UserType.user) {
+    if (data.role == UserType.user) {
       ({ error, value } = UserRegistrationValidator(data));
-    } else {
+    } else if (data.role == UserType.rider) {
       ({ error, value } = RiderRegistrationValidator(data as IRider));
+    } else {
+      throw new Exception(400, 'Invalid role, only user or rider allowed');
     }
     if (error) throw new Exception(400, error.details[0].message);
     let user = await UserAuth.findOne({ email: value.email });
     if (user) throw new Exception(409, 'email already exists');
     let hashedPassword = await this.hashPassword(value.password);
-    if (role == UserType.user) {
+    if (data.role == UserType.user) {
       let create = await User.create({
         ...value,
-        role: role,
+        role: data.role,
       });
       userId = create._id.toString();
     }
-    if (role == UserType.rider) {
+    if (data.role == UserType.rider) {
       let create = await Rider.create({
         ...value,
-        role: role,
+        role: data.role,
       });
       userId = create._id.toString();
     }
     await UserAuth.create({
       email: value.email,
       password: hashedPassword,
-      role: role,
+      role: data.role,
       userId: userId,
     });
     return { _id: userId };

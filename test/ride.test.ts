@@ -123,16 +123,12 @@ describe('GET /v1/ride/:id', function () {
 
 describe('PATCH /v1/ride/:id/cancel', function () {
   it('should cancel ride', async function () {
-    const ride = {
-      userId,
-      riderId,
-    };
     const response = await supertest(app)
       .patch(`/v1/ride/${rideId2}/cancel`)
       .set({
         'x-auth-token': riderToken,
       })
-      .send(ride);
+      .send();
     expect(response.status).to.eql(200);
   });
 });

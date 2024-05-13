@@ -5,9 +5,10 @@ import jwt from 'jsonwebtoken';
 import { Exception } from './error.middleware';
 import crypto from 'crypto';
 import Admin from '@models/admin.model';
+import { AuthenticatedRequest } from '@types';
 
 export const UserAuth = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
 ) => {
@@ -17,6 +18,7 @@ export const UserAuth = async (
       let decoded: any = jwt.verify(token, config.jwt.user);
       let user = await User.findById(decoded.id, { _id: 1, role: 1 });
       if (user?._id == decoded.id) {
+        req.userId = user?.id;
         next();
       } else {
         throw new Exception(401, 'Authentication Failed/Invalid Token');
@@ -33,7 +35,7 @@ export const UserAuth = async (
 };
 
 export const RiderAuth = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
 ) => {
@@ -42,7 +44,8 @@ export const RiderAuth = async (
     if (token) {
       let decoded: any = jwt.verify(token, config.jwt.user);
       let user = await User.findById(decoded.id, { _id: 1, role: 1 });
-      if (user?._id == decoded.id && user?.role == "rider") {
+      if (user?._id == decoded.id && user?.role == 'rider') {
+        req.userId = user?.id;
         next();
       } else {
         throw new Exception(401, 'Authentication Failed/Invalid Token');
@@ -58,30 +61,30 @@ export const RiderAuth = async (
   }
 };
 
-// export const PaymentAuth = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction,
-// ) => {
-//   try {
-//     const providerSignature = req.headers['x-paystack-signature'] || '';
-//     const signature = crypto
-//       .createHmac('sha512', config.payment.secretKey)
-//       .update(JSON.stringify(req.body))
-//       .digest('hex');
-//     if (providerSignature != signature)
-//       throw new Exception(401, 'Authentication failed');
-//     next();
-//   } catch (e: any) {
-//     return res.status(401).json({
-//       statusCode: 401,
-//       message: e.message,
-//     });
-//   }
-// };
+export const PaymentAuth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const providerSignature = req.headers['x-paystack-signature'] || '';
+    const signature = crypto
+      .createHmac('sha512', config.payment.secretKey as string)
+      .update(JSON.stringify(req.body))
+      .digest('hex');
+    if (providerSignature != signature)
+      throw new Exception(401, 'Authentication failed');
+    next();
+  } catch (e: any) {
+    return res.status(401).json({
+      statusCode: 401,
+      message: e.message,
+    });
+  }
+};
 
 export const AdminAuth = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
 ) => {
@@ -97,6 +100,7 @@ export const AdminAuth = async (
         throw new Error('Authentication Failed/Invalid Token');
       }
       if (user?._id == decoded.id) {
+        req.userId = user?.id;
         next();
       }
     }

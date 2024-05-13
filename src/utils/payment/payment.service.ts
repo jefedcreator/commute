@@ -20,6 +20,7 @@ class PaymentService {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${secretKey}`,
   };
+
   async createCharge(data: any): Promise<string> {
     let params = JSON.stringify({
       email: data.email,
@@ -39,7 +40,19 @@ class PaymentService {
       body: params,
     });
     let charge = await response.json();
+    if (!charge.status) {
+      throw new Exception(400, charge.message);
+    }
     return charge.data.authorization_url;
+  }
+
+  async verifyCharge(reference: string): Promise<string> {
+    let response = await fetch(`${host}/transaction/verify/${reference}`, {
+      method: 'GET',
+      headers: this.headers,
+    });
+    let charge = await response.json();
+    return charge.data;
   }
 
   async createSubcriptionURI(data: any): Promise<string | undefined> {

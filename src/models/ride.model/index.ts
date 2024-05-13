@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, SchemaTimestampsConfig } from 'mongoose';
 import { IRide, PaymentStatus, Status, PaymentType } from './type';
 
-const RideSchema = new Schema<IRide>(
+const RideSchema = new Schema<IRide> (
   {
     campusName: { type: String, required: true },
     paymentStatus: {
@@ -23,8 +23,9 @@ const RideSchema = new Schema<IRide>(
     distance: { type: Number, default: 0 },
     cost: { type: Number, default: 0 },
     duration: { type: Number, default: 0 },
+    completedAt: { type: Date },
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    riderId: { type: Schema.Types.ObjectId, ref: 'Rider' },
+    riderId: { type: Schema.Types.ObjectId, ref: 'User' },
     pickupPoint: {
       pickupName: { type: String, default: '' },
       pickupLat: { type: String, default: '' },

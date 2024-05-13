@@ -41,11 +41,10 @@ export default class RideController {
     next: NextFunction,
   ) => {
     try {
-      const riderId = req.userId as string;
+      const userId = req.userId as string;
       let bokingStatus = await this.rideService.cancelRide(
         req.params.id,
-        req.body.userId,
-        riderId,
+        userId,
       );
       return CustomApiResponse(res, 200, 'ride canceled', bokingStatus);
     } catch (e) {
@@ -74,12 +73,17 @@ export default class RideController {
   ) => {
     try {
       const riderId = req.userId as string;
+      let ride = await this.rideService.completeRide(req.params.id, riderId);
+      return CustomApiResponse(res, 200, 'ride completed', ride);
+    } catch (e) {
+      next(e);
+    }
+  };
 
-      let ride = await this.rideService.completeRide(
-        req.params.id,
-        riderId,
-      );
-      return CustomApiResponse(res, 200, 'ride accepted', ride);
+  verifyPayment = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let booking = await this.rideService.verifyPayment(req.body);
+      return CustomApiResponse(res, 201, 'payment verified', booking);
     } catch (e) {
       next(e);
     }

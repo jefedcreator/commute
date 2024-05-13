@@ -16,7 +16,7 @@ class RiderRouter {
   private routes() {
     this.router
       .get('/', UserAuth, this.riderController.getRiderById)
-      .put('/', UserAuth, this.riderController.updateRider);
+      .patch('/', UserAuth, this.riderController.updateRider);
   }
 }
 

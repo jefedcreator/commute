@@ -10,17 +10,8 @@ export default class AuthController {
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await this.authService.createUser(UserType.user, req.body);
+      const user = await this.authService.createUser(req.body);
       return CustomApiResponse(res, 201, 'user created', user);
-    } catch (e) {
-      next(e);
-    }
-  };
-
-  createRider = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const user = await this.authService.createUser(UserType.rider, req.body);
-      return CustomApiResponse(res, 201, 'rider created', user);
     } catch (e) {
       next(e);
     }

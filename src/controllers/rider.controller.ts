@@ -1,7 +1,7 @@
 import RiderService from '@services/rider.service';
 import { AuthenticatedRequest } from '@types';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { Service } from 'typedi';
 
 @Service()
