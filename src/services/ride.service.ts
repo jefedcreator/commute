@@ -37,12 +37,44 @@ export default class RideService {
     return rides;
   };
 
-  findUserRides = async (userId: string): Promise<IRide[]> => {
+  findUserRides = async (
+    userId: string,
+    {
+      size,
+      page,
+      status,
+      paymentType,
+      payment,
+    }: {
+      size: number;
+      page: number;
+      status: string;
+      paymentType: string;
+      payment: string;
+    },
+  ): Promise<IRide[]> => {
+    let filter: any = {};
+    if (status) {
+      filter.status = status;
+    }
+    if (paymentType) {
+      filter.paymentType = paymentType;
+    }
+    if (payment) {
+      filter.paymentStatus = payment;
+    }
+    const pageSize = Number(size) || 0;
+    const pageNumber = Number(page) || 1;
+    const skip = pageSize * pageNumber - pageSize;
     const rides = await Ride.find({
       $or: [{ riderId: userId }, { userId: userId }],
-    }).sort({
-      createdAt: -1,
-    });
+      ...filter,
+    })
+      .skip(skip)
+      .limit(pageSize)
+      .sort({
+        createdAt: -1,
+      });
     return rides;
   };
 

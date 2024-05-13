@@ -34,7 +34,14 @@ export default class UserController {
   ) => {
     try {
       const id = req.userId as string;
-      let user = await this.transactionService.findAllbyUser(id);
+      let query = {
+        status: req.query.status as string,
+        type: req.query.type as string,
+        channel: req.query.channel as string,
+        page: Number(req.query.page),
+        size: Number(req.query.size),
+      };
+      let user = await this.transactionService.findAllbyUser(id, query);
       return CustomApiResponse(res, 200, 'user fetched', user);
     } catch (e) {
       next(e);
@@ -48,8 +55,15 @@ export default class UserController {
   ) => {
     try {
       const id = req.userId as string;
-      let user = await this.rideService.findUserRides(id);
-      return CustomApiResponse(res, 200, 'user fetched', user);
+      let query = {
+        status: req.query.status as string,
+        paymentType: req.query.paymentType as string,
+        payment: req.query.payment as string,
+        page: Number(req.query.page),
+        size: Number(req.query.size),
+      };
+      let rides = await this.rideService.findUserRides(id, query);
+      return CustomApiResponse(res, 200, 'rides fetched', rides);
     } catch (e) {
       next(e);
     }

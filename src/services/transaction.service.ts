@@ -18,19 +18,74 @@ export default class TransactionService {
     return transaction;
   }
 
-  async findAll(): Promise<ITransaction[]> {
-    const transactions = await Transaction.find({}).sort({
-      createdAt: -1,
-    });
+  async findAll(query: {
+    size: number;
+    page: number;
+    status: string;
+    type: string;
+    channel: string;
+  }): Promise<ITransaction[]> {
+    let filter = {};
+    if (query.status) {
+      filter = { status: query.status };
+    }
+    if (query.type) {
+      filter = { type: query.type };
+    }
+    if (query.channel) {
+      filter = { paymentChannel: query.channel };
+    }
+    const pageSize = Number(query.size) || 0;
+    const pageNumber = Number(query.page) || 1;
+    const skip = pageSize * pageNumber - pageSize;
+    const transactions = await Transaction.find(filter)
+      .skip(skip)
+      .limit(pageSize)
+      .sort({
+        createdAt: -1,
+      });
     return transactions;
   }
 
-  async findAllbyUser(userId: string): Promise<ITransaction[]> {
+  async findAllbyUser(
+    userId: string,
+    {
+      size,
+      page,
+      status,
+      type,
+      channel,
+    }: {
+      size: number;
+      page: number;
+      status: string;
+      type: string;
+      channel: string;
+    },
+  ): Promise<ITransaction[]> {
+    let filter: any = {};
+    if (status) {
+      filter.status = status;
+    }
+    if (type) {
+      filter.type = type;
+    }
+    if (channel) {
+      filter.paymentChannel = channel;
+    }
+    const pageSize = Number(size) || 0;
+    const pageNumber = Number(page) || 1;
+    const skip = pageSize * pageNumber - pageSize;
+
     const transactions = await Transaction.find({
       $or: [{ riderId: userId }, { userId: userId }],
-    }).sort({
-      createdAt: -1,
-    });
+      ...filter,
+    })
+      .skip(skip)
+      .limit(pageSize)
+      .sort({
+        createdAt: -1,
+      });
     return transactions;
   }
 

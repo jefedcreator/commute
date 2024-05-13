@@ -27,8 +27,14 @@ export default class TransactionController {
     next: NextFunction,
   ) => {
     try {
-      const id = req.userId as string;
-      let transaction = await this.transactionService.findAll();
+      let query = {
+        status: req.query.status as string,
+        type: req.query.type as string,
+        channel: req.query.channel as string,
+        page: Number(req.query.page),
+        size: Number(req.query.size),
+      };
+      let transaction = await this.transactionService.findAll(query);
       return CustomApiResponse(res, 200, 'transactions fetched', transaction);
     } catch (e) {
       next(e);
@@ -42,7 +48,14 @@ export default class TransactionController {
   ) => {
     try {
       const id = req.params.id;
-      let transaction = await this.transactionService.findAllbyUser(id);
+      let query = {
+        status: req.query.status as string,
+        type: req.query.type as string,
+        channel: req.query.channel as string,
+        page: Number(req.query.page),
+        size: Number(req.query.size),
+      };
+      let transaction = await this.transactionService.findAllbyUser(id, query);
       return CustomApiResponse(res, 200, 'transactions fetched', transaction);
     } catch (e) {
       next(e);
