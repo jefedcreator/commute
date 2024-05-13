@@ -16,7 +16,7 @@ A nodejs express server application for a ride hailing software for movement wit
 
 ## Introduction
 
-As a student in a university, mobility is a necessity. From my experience, however, students have to queue under really long lines at certain stops, under the blistering sun of the day. This is the major inspiration for Commute, a Node.js Express server built with TypeScript and Joi for validations. This application caters to three categories of users: admin, users, and riders. Riders and users can sign up and sign in on the app. Users can create a ride for a fee if riders approve. Riders can approve, complete, and cancel a ride.
+As a student in a university, mobility is a necessity. From my experience, however, students have to queue under really long lines at certain stops, under the blistering sun of the day. This is the major inspiration for Commute, a Node.js Express server built with TypeScript and Joi for validations. This application caters to three categories of users: admin, users, and riders. Riders and users can sign up and sign in on the app. Users can create a ride for a fee of ₦50 per minute of ride duration, charged through if riders approve. Riders can approve, complete, and cancel a ride.
 
 ## Local development
 
