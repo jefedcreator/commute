@@ -1,11 +1,15 @@
 import AdminService from '@services/admin.service';
-import { NextFunction, Request, Response } from 'express';
+import UserService from '@services/user.service';
 import { CustomApiResponse } from '@utils/functions/apiresponse';
+import { NextFunction, Request, Response } from 'express';
 import { Service } from 'typedi';
 
 @Service()
 export default class AdminController {
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private userService: UserService,
+  ) {}
 
   suspendUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -52,6 +56,15 @@ export default class AdminController {
   deleteAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let admin = await this.adminService.deleteProfile(req.params.id);
+      return CustomApiResponse(res, 200, 'admin deleted', admin);
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let admin = await this.userService.deleteProfile(req.params.id);
       return CustomApiResponse(res, 200, 'admin deleted', admin);
     } catch (e) {
       next(e);

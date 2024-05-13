@@ -21,6 +21,7 @@ class AdminRouter {
       .get('/rides', AdminAuth, this.adminController.getRides)
       .get('/users', AdminAuth, this.adminController.getUsers)
       .patch('/users/:id', AdminAuth, this.adminController.suspendUser)
+      .delete('/users/:id', AdminAuth, this.adminController.deleteUser)
       .delete('/', AdminAuth, this.adminController.deleteAdmin);
   }
 }

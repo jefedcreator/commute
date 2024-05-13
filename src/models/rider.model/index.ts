@@ -7,7 +7,6 @@ const RiderShema = new Schema<IRider>({
     vehicleName: {
       type: String,
       required: true,
-      unique: true,
       default: '',
     },
     vehicleId: {

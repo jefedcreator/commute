@@ -15,7 +15,7 @@ class AuthRouter {
     this.router
       .post('/signup', this.authController.createUser)
       .post('/signin', this.authController.login)
-      .post('/password-reset', this.authController.resetPassword)
+      .post('/password/reset', this.authController.resetPassword)
   }
 }
 export default new AuthRouter();
