@@ -16,12 +16,12 @@ class AdminRouter {
 
   private routes() {
     this.router
-      .get('/riders', AdminAuth, this.adminController.getRiders)
-      .get('/rides', AdminAuth, this.adminController.getRiders)
+      .post('/signup', this.authController.createAdmin)
+      .post('/signin', this.authController.loginAdmin)
+      .get('/rides', AdminAuth, this.adminController.getRides)
       .get('/users', AdminAuth, this.adminController.getUsers)
       .patch('/users/:id', AdminAuth, this.adminController.suspendUser)
-      .delete('/', this.adminController.deleteAdmin)
-      .post('/signin', this.authController.loginAdmin);
+      .delete('/', AdminAuth, this.adminController.deleteAdmin);
   }
 }
 export default new AdminRouter();

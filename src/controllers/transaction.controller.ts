@@ -13,8 +13,7 @@ export default class TransactionController {
     next: NextFunction,
   ) => {
     try {
-      const id = req.userId as string;
-      let transaction = await this.transactionService.findbyId(id);
+      let transaction = await this.transactionService.findbyId(req.params.id);
       return CustomApiResponse(res, 200, 'transaction fetched', transaction);
     } catch (e) {
       next(e);

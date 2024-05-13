@@ -1,11 +1,11 @@
 import { config } from '@config';
+import Admin from '@models/admin.model';
 import User from '@models/user.model';
-import { NextFunction, Response, Request } from 'express';
+import { AuthenticatedRequest } from '@types';
+import crypto from 'crypto';
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { Exception } from './error.middleware';
-import crypto from 'crypto';
-import Admin from '@models/admin.model';
-import { AuthenticatedRequest } from '@types';
 
 export const UserAuth = async (
   req: AuthenticatedRequest,
@@ -24,7 +24,7 @@ export const UserAuth = async (
         throw new Exception(401, 'Authentication Failed/Invalid Token');
       }
     } else {
-      throw new Exception(401, 'Authentication Failed/Invalid Token');
+      throw new Error('Authentication failed: No token provided');
     }
   } catch (e: any) {
     return res.status(401).json({
@@ -48,7 +48,7 @@ export const RiderAuth = async (
         req.userId = user?.id;
         next();
       } else {
-        throw new Exception(401, 'Authentication Failed/Invalid Token');
+        throw new Error('Authentication failed: No token provided');
       }
     } else {
       throw new Exception(401, 'Authentication Failed/Invalid Token');

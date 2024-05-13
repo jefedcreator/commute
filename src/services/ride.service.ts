@@ -3,9 +3,8 @@ import { Exception } from '@middlewares/error.middleware';
 import Ride, { IRide, PaymentStatus, Status } from '@models/ride.model';
 import Rider from '@models/rider.model';
 import Transaction, {
-  ITransaction,
   TransactionStatus,
-  TransactionType,
+  TransactionType
 } from '@models/transaction.model';
 import User from '@models/user.model';
 import duration from '@utils/functions/duration';

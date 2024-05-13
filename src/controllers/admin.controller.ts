@@ -6,24 +6,12 @@ import { Service } from 'typedi';
 @Service()
 export default class AdminController {
   constructor(private adminService: AdminService) {}
-  
+
   suspendUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await this.adminService.suspendUser(req.body.userId);
-      return CustomApiResponse(res, 200, 'user suspended', '');
-    } catch (e) {
-      next(e);
-    }
-  };
-  getRiders = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      let filter = {
-        status: req.query.status as string,
-        page: Number(req.query.page),
-        size: Number(req.query.size),
-      };
-      let bookings = await this.adminService.getRiders(filter);
-      return CustomApiResponse(res, 200, 'fetch riders', bookings);
+      const user = await this.adminService.suspendUser(req.params.id);
+      let message = user.isActive ? 'user unsuspended' : 'user suspended';
+      return CustomApiResponse(res, 200, message, user);
     } catch (e) {
       next(e);
     }
@@ -34,9 +22,28 @@ export default class AdminController {
       let filter = {
         page: Number(req.query.page),
         size: Number(req.query.size),
+        role: req.query.role as string,
       };
       let users = await this.adminService.getUsers(filter);
       return CustomApiResponse(res, 200, 'fetch users', users);
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  getRides = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let filter = {
+        page: Number(req.query.page),
+        size: Number(req.query.size),
+        status: req.query.status as string,
+        paymentStatus: req.query.paymentStatus as string,
+        paymentType: req.query.paymentType as string,
+        userId: req.query.userId as string,
+        riderId: req.query.riderId as string,
+      };
+      let users = await this.adminService.getRides(filter);
+      return CustomApiResponse(res, 200, 'fetch rides', users);
     } catch (e) {
       next(e);
     }
