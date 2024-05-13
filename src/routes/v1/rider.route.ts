@@ -16,6 +16,8 @@ class RiderRouter {
   private routes() {
     this.router
       .get('/', UserAuth, this.riderController.getRiderById)
+      .get('/rides', UserAuth, this.riderController.getRides)
+      .get('/transactions', UserAuth, this.riderController.getTransactions)
       .patch('/', UserAuth, this.riderController.updateRider);
   }
 }

@@ -46,25 +46,4 @@ export default class TransactionService {
     if (!transaction) throw new Exception(404, 'transaction not found');
     return await this.findbyId(id);
   }
-
-  //   async getReviews(professionalId: string): Promise<{
-  //     metrics: { ratings: number; totalReviews: number };
-  //     reviews: Array<IReview>;
-  //   }> {
-  //     let totalRatings = 0;
-  //     const reviews = await Review.find({
-  //       professionalId: professionalId,
-  //     }).populate({
-  //       path: 'userId',
-  //       select: ['firstname', 'lastname', 'avatar'],
-  //     });
-  //     reviews.map((e) => (totalRatings += e.rating));
-  //     return {
-  //       metrics: {
-  //         ratings: Math.round(Number(totalRatings) / Number(reviews.length)),
-  //         totalReviews: reviews.length,
-  //       },
-  //       reviews: reviews,
-  //     };
-  //   }
 }

@@ -3,6 +3,7 @@ import { Exception } from '@middlewares/error.middleware';
 import Ride, { IRide, PaymentStatus, Status } from '@models/ride.model';
 import Rider from '@models/rider.model';
 import Transaction, {
+  ITransaction,
   TransactionStatus,
   TransactionType,
 } from '@models/transaction.model';
@@ -33,6 +34,15 @@ export default class RideService {
 
   findAllRides = async (): Promise<IRide[]> => {
     let rides = await Ride.find({});
+    return rides;
+  };
+
+  findUserRides = async (userId: string): Promise<IRide[]> => {
+    const rides = await Ride.find({
+      $or: [{ riderId: userId }, { userId: userId }],
+    }).sort({
+      createdAt: -1,
+    });
     return rides;
   };
 
