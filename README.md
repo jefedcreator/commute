@@ -1,6 +1,6 @@
 # commute
 
-A nodejs express server application for a ride hailing software for movement within universities
+REST API for ride hailing SAAS within university campuses. Built with express, nodejs, typescript and paystack
 
 # Table of Contents
 
